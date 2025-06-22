@@ -29,9 +29,9 @@ export default function Home() {
       <Starfield />
 
       <div className="viewport-grid">
-        <GlassPane label="About"    route="/about"    index={0} />
-        <GlassPane label="Product"  route="/product"  index={1} />
-        <GlassPane label="Contact"  route="/contact"  index={2} />
+        <GlassPane label="About"    route="/"    index={0} />
+        <GlassPane label="Product"  route="/"  index={1} />
+        <GlassPane label="Contact"  route="/"  index={2} />
       </div>
     </>
   );
