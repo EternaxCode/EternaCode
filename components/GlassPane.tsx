@@ -2,59 +2,53 @@ import { PropsWithChildren, useState, useCallback } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { UI } from '@/lib/uiConstants';
+import { rgba } from '@/lib/colorUtils';
 import {
-  starfieldControls,
+  springCameraFov,
   overlayControls,
   starfieldBackground,
 } from './StarfieldCanvas';
 
-/* ───── HEX → rgba ───── */
-const rgba = (hex: string, a: number) =>
-  `rgba(${parseInt(hex.slice(1, 3), 16)},
-        ${parseInt(hex.slice(3, 5), 16)},
-        ${parseInt(hex.slice(5, 7), 16)},${a})`;
+export type Label = 'About' | 'Product' | 'Contact';
 
-type Label = 'About' | 'Product' | 'Contact';
+interface Props { label: Label; route: string; index: number; }
 
-interface Props {
-  label : Label;
-  route : string;
-  index : number;
-}
-
-/* children 가능하도록 PropsWithChildren */
 export default function GlassPane(
   { label, route, children }: PropsWithChildren<Props>
 ) {
-  const router   = useRouter();
+  const router = useRouter();
   const controls = useAnimation();
   const [hovered, setHovered] = useState(false);
 
   const themeHex =
-    label === 'About'
-      ? UI.THEME.about
-      : label === 'Product'
-        ? UI.THEME.product
-        : UI.THEME.contact;
+    label === 'About' ? UI.THEME.about :
+      label === 'Product' ? UI.THEME.product :
+        UI.THEME.contact;
 
   const bgColor = hovered
     ? rgba(themeHex, 0.25)
     : `rgba(255,255,255,var(--glass-bg-o))`;
 
+  /* 클릭 → 페이지 전환 */
   const handleClick = useCallback(async () => {
+
+    /* 1) 카메라 줌-아웃 (FOV far) */
+    springCameraFov(UI.WORMHOLE.fovFar);
+
+    /* 2) 컬러 오버레이 + 버튼 페이드 */
     await Promise.all([
-      starfieldControls.current?.start({
-        scale: UI.WORMHOLE.zoomClick,
-        transition: { duration: 0.8, ease: 'easeIn' },
-      }),
+      overlayControls.current?.set({ backgroundColor: rgba(themeHex, 0.9) }),
       overlayControls.current?.start({
-        backgroundColor: rgba(themeHex, 1),
-        transition: { duration: 0.8, ease: 'easeIn' },
+        backgroundColor: rgba(themeHex, UI.THEME.OVERLAY_ALPHA),
+        transition: { duration: 0.6, ease: 'easeInOut' },
       }),
-      controls.start({ opacity: 0, transition: { duration: 0.4 } }),
+      controls.start({ opacity: 0, filter: 'blur(5px)', transition: { duration: 0.4 } }),
     ]);
+
+    /* 3) 배경색 확정 후 라우팅 */
     starfieldBackground.set(themeHex);
     router.push(route);
+
   }, [controls, router, route, themeHex]);
 
   return (
@@ -66,24 +60,20 @@ export default function GlassPane(
       whileHover={{ scale: 1.03 }}
       onHoverStart={() => {
         setHovered(true);
-
-        const z = UI.WORMHOLE.zoomMin +
-                  Math.random() * (UI.WORMHOLE.zoomMax - UI.WORMHOLE.zoomMin);
-        starfieldControls.current?.start({ scale: z });
-
-        overlayControls.current?.start({
-          backgroundColor: rgba(themeHex, UI.THEME.OVERLAY_ALPHA),
+        springCameraFov(UI.WORMHOLE.fovMin +
+          Math.random() * (UI.WORMHOLE.fovMax - UI.WORMHOLE.fovMin));
+        overlayControls.current?.set({
+          backgroundColor: rgba(themeHex, UI.THEME.OVERLAY_ALPHA)
         });
       }}
       onHoverEnd={() => {
         setHovered(false);
-        starfieldControls.current?.start({ scale: 1 });
-        overlayControls.current?.start({ backgroundColor: 'transparent' });
+        springCameraFov(UI.WORMHOLE.fovNear);
+        overlayControls.current?.set({ backgroundColor: 'transparent' });
       }}
       onClick={handleClick}
-      transition={{ type: 'spring', stiffness: 160, damping: 18 }}
+      transition={{ ease: "easeInOut", duration: UI.WORMHOLE.duration }}
     >
-      {/* 자식이 있으면 children, 없으면 label 텍스트 */}
       {children ?? label}
     </motion.button>
   );

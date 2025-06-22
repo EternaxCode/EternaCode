@@ -2,6 +2,7 @@ html, body {
   margin: 0;
   padding: 0;      /* 혹시 다른 곳에서 padding 준 경우도 대비 */
   height: 100%;    /* 모바일 주소창 숨김 현상 완화 */
+  overflow:hidden;
 }
 
 /*── 공통 설정 ───────────────────────────────*/
@@ -11,6 +12,10 @@ html, body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 1fr;
+}
+
+.starfield-wrapper {
+  transform-origin: center center;
 }
 
 /* 세로 화면일 땐 3행 세로배치 */

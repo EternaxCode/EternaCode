@@ -1,0 +1,69 @@
+/*──────────────── Glass Pane ───────────────*/
+.glass-pane {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.1rem 2rem;
+    min-height: 48px;
+    font: 600 1.25rem/1 'Inter', sans-serif;
+    letter-spacing: .02em;
+    color: #e5ecff;
+
+    /* 기본: 블러 OFF + 거의 투명한 유리 */
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(255, 255, 255, var(--glass-bg-o));
+    border-right: 1px solid rgba(255, 255, 255, var(--glass-border-o));
+
+    transition:
+        background-color .3s ease,
+        backdrop-filter .3s ease,
+        -webkit-backdrop-filter .3s ease;
+}
+
+.glass-pane:last-child {
+    border-right: none
+}
+
+/* Hover 시에만 블러 ON */
+.glass-pane:hover {
+    background: rgba(255, 255, 255, var(--glass-bg-hover-o));
+    backdrop-filter: blur(var(--glass-hover-blur)) brightness(var(--glass-bright));
+    -webkit-backdrop-filter: blur(var(--glass-hover-blur)) brightness(var(--glass-bright));
+}
+
+/* 광택 스윕 */
+.glass-pane::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(70deg,
+            transparent 0%, rgba(255, 255, 255, .25) 45%,
+            rgba(255, 255, 255, .05) 60%, transparent 100%);
+    transform: translateX(-100%);
+    transition: transform .8s ease;
+}
+
+.glass-pane:hover::before {
+    transform: translateX(100%)
+}
+
+/* 웜홀 플레어 */
+.glass-pane::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center,
+            rgba(255, 255, 255, .25) 0%, rgba(255, 255, 255, .05) 60%, transparent 80%);
+    opacity: 0;
+    transition: opacity .6s ease;
+}
+
+.glass-pane:hover::after {
+    opacity: 1
+}
