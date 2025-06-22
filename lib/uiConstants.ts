@@ -17,6 +17,7 @@ export const UI = {
     zoomMin    : 1.25,    // ⭐ 최소 확대 배율
     zoomMax    : 1.6,     // ⭐ 최대 확대 배율
     duration   : 0.8,     // 애니메이션 길이(s)
+    zoomClick : 2.0,
   },
 
   /* Pop 스프라이트 */
