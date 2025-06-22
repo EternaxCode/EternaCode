@@ -1,0 +1,21 @@
+/*── 공통 설정 ───────────────────────────────*/
+.viewport-grid {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: stretch;
+  grid-auto-rows: 1fr;    /* 셀 채우기 */
+  grid-auto-columns: 1fr;
+  z-index: 20;
+}
+
+/*── 기본: 가로 (= landscape, 또는 3:2 이상) → 3열 ──*/
+.viewport-grid { grid-auto-flow: column; }             /* 자동 열 배치 */
+@media (orientation: landscape) and (max-aspect-ratio: 3/2) {
+  /* 가로여도 거의 정사각형에 가까운 경우 portrait 로 처리하고 싶다면 조정 가능 */
+}
+
+/*── 높이가 더 긴 경우 → 3행 ───────────────────────*/
+@media (orientation: portrait), (max-aspect-ratio: 1/1) {
+  .viewport-grid { grid-auto-flow: row; }              /* 자동 행 배치 */
+}

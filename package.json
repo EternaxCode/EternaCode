@@ -9,13 +9,21 @@
   "dependencies": {
     "@react-three/drei": "^9.74.1",
     "@react-three/fiber": "^8.13.7",
+    "@tailwindcss/cli": "^4.1.10",
+    "classnames": "^2.5.1",
+    "framer-motion": "^12.18.1",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.321.0",
     "next": "14.1.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "three": "^0.177.0"
   },
   "devDependencies": {
     "@types/node": "^24.0.3",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.10",
     "typescript": "^5.8.3"
   }
 }

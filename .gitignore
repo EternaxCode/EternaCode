@@ -1,2 +1,48 @@
-node_modules
+# Node dependencies
+node_modules/
+
+# Next.js build output and cache
+.next/
+.next/cache/
+
+# Production builds (if using `out` or other)
 out/
+
+# TypeScript build artifacts
+*.tsbuildinfo
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environment variables & secrets
+.env
+.env.*
+
+# IDE / Editor folders
+.vscode/
+.idea/
+*.sw?
+
+# Mac system files
+.AppleDouble
+.LSOverride
+
+# Coverage reports
+coverage/
+
+# Misc
+*.log
+*.vercel
+
+# Local testing/preview files
+*.local
+
+# Images generated in chat sessions (if any)
+ChatGPT Image*/

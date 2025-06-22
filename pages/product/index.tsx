@@ -1,16 +1,7 @@
-import dynamic from 'next/dynamic';
-const PolyBackground = dynamic(() => import('../../components/PolyBackground'), { ssr: false });
-import Link from 'next/link';
-
 export default function Product() {
   return (
-    <main className="min-h-screen text-white relative overflow-hidden bg-black">
-      <PolyBackground />
-      <div className="relative z-10 p-8">
-        <Link href="/" className="text-cyan-300 underline">Home</Link>
-        <h1 className="text-4xl font-bold mt-8 mb-4">Product</h1>
-        <p>Discover our cutting-edge apps and services.</p>
-      </div>
+    <main className="h-screen w-screen flex items-center justify-center bg-black text-white">
+      <h1 className="text-3xl font-bold">Product 페이지 (추후 내용 채우기)</h1>
     </main>
   );
 }
