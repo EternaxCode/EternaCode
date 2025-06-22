@@ -1,5 +1,6 @@
 import { Star } from 'lucide-react';
-import StarField from '../components/StarField';
+import dynamic from 'next/dynamic';
+const PolyBackground = dynamic(() => import('../components/PolyBackground'), { ssr: false });
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -17,7 +18,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-black text-white relative overflow-hidden">
-      <StarField />
+      <PolyBackground />
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen p-4 text-center">
         <h1 className="text-4xl md:text-6xl font-bold mb-10">Eterna Galaxy</h1>
         <div className="flex gap-12">
