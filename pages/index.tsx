@@ -1,16 +1,26 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import GlassPane from '@/components/GlassPane';
-import { useState } from 'react';
 
+/* Starfield 캔버스 (클라이언트) */
 const Starfield = dynamic(
-  () => import('@/components/StarfieldCanvas').then((m) => m.default),
+  () => import('@/components/StarfieldCanvas').then(m => m.default),
   { ssr: false }
 );
 
+/* ★ Starfield 컨트롤 가져오기 */
+import {
+  overlayControls,
+  starfieldBackground,
+} from '@/components/StarfieldCanvas';
+
 export default function Home() {
-  /* ⭐ 현재 Hover 중인 메뉴 라벨 (About | Product | Contact | null) */
-  const [active, setActive] = useState<null | 'About' | 'Product' | 'Contact'>(null);
+  /* 첫 마운트 때 검정 우주로 리셋 */
+  useEffect(() => {
+    overlayControls.current?.set({ backgroundColor: 'transparent' });
+    starfieldBackground.reset();
+  }, []);
 
   return (
     <>
@@ -19,9 +29,9 @@ export default function Home() {
       <Starfield />
 
       <div className="viewport-grid">
-        <GlassPane label="About"    route="/#"    active={active} setActive={setActive} />
-        <GlassPane label="Product"  route="/#"  active={active} setActive={setActive} />
-        <GlassPane label="Contact"  route="/#"  active={active} setActive={setActive} />
+        <GlassPane label="About"    route="/about"    index={0} />
+        <GlassPane label="Product"  route="/product"  index={1} />
+        <GlassPane label="Contact"  route="/contact"  index={2} />
       </div>
     </>
   );
