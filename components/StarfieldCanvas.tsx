@@ -17,7 +17,7 @@ export const cameraControls = {
     current: null as THREE.PerspectiveCamera | null,
 };
 export const starfieldBackground = {
-    set: (_: string) => { },
+    set: (_: string, p0: number) => { },
     reset: () => { },
 };
 
@@ -31,7 +31,7 @@ export const springCameraFov = (to: number) => {
     fovTween?.stop();
     fovTween = animate(cam.fov, to, {
         duration: UI.WORMHOLE.duration,
-        ease: 'easeInOut',
+        ease: 'easeOut',
         onUpdate: (v) => {
             cam.fov = v as number;
             cam.updateProjectionMatrix();
@@ -96,12 +96,13 @@ export default function StarfieldCanvas() {
                 const target = toLin(hex);
                 const from = currentClear.clone();
                 const dur = ms / 1000;
-                let t = 0;
-                const easeInOut = (k: number) => k < .5 ? 2 * k * k : -1 + (4 - 2 * k) * k;
+
+                let start: number | null = null;
+                const ease = (k: number) => k < .5 ? 2 * k * k : -1 + (4 - 2 * k) * k;
                 const step = (ts: DOMHighResTimeStamp) => {
-                    t += 1 / 60;
-                    const k = Math.min(t / dur, 1);
-                    renderer.setClearColor(from.clone().lerp(target, easeInOut(k)), 1);
+                    if (start === null) start = ts;
+                    const k = Math.min((ts - start) / ms, 1);
+                    renderer.setClearColor(from.clone().lerp(target, ease(k)), 1);
                     if (k < 1) requestAnimationFrame(step);
                     else currentClear.copy(target);
                 };
@@ -123,13 +124,17 @@ export default function StarfieldCanvas() {
             resize(); window.addEventListener('resize', resize);
 
             /* 렌더 루프 */
+            let loopId = 0;
             const loop = () => {
                 renderer.render(scene, camera);
-                requestAnimationFrame(loop);
+                loopId = requestAnimationFrame(loop);
             };
             loop();
 
-            return () => window.removeEventListener('resize', resize);
+            return () => {
+                window.removeEventListener('resize', resize);
+                cancelAnimationFrame(loopId);
+            }
         };
 
         init();
@@ -142,7 +147,7 @@ export default function StarfieldCanvas() {
                 className="absolute inset-0 pointer-events-none"
                 style={{ mixBlendMode: 'screen', zIndex: -5 }}
                 animate={ovCtrl}
-                transition={{ duration: 0.6, ease: 'easeInOut' }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
             />
         </>
     );

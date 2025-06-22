@@ -1,4 +1,4 @@
-import { PropsWithChildren, useState, useCallback, useEffect } from 'react';
+import { PropsWithChildren, useCallback, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { UI } from '@/lib/uiConstants';
@@ -15,91 +15,92 @@ interface Props { label: Label; route: string; index: number; }
 export default function GlassPane(
   { label, route, children }: PropsWithChildren<Props>
 ) {
-  const router = useRouter();
-  const ctrlSelf = useAnimation();          // GlassPane 전용 컨트롤
-  const [hovered, setHovered] = useState(false);
+  const router   = useRouter();
+  const ctrlSelf = useAnimation();
 
+  /* 테마 색상 */
   const themeHex =
-    label === 'About' ? UI.THEME.about :
-      label === 'Product' ? UI.THEME.product :
-        UI.THEME.contact;
+    label === 'About'   ? UI.THEME.about   :
+    label === 'Product' ? UI.THEME.product :
+                          UI.THEME.contact;
 
-  const baseBG = `rgba(255,255,255,var(--glass-bg-o))`;
-  const hoverBG = rgba(themeHex, 0.15);
+  /* RGBA 값(숫자 알파) — framer 애니메이트 가능 */
+  const baseBG  = `rgba(255,255,255,${UI.GLASS.bgOpacity})`;   // 0.05
+  const hoverBG = rgba(themeHex, 0.15);                        // 0.15
+  const fadeBG  = rgba(themeHex, 0.03);                        // 0.03
 
-  /* ⚠️ mount 후 기본 상태 세팅 */
+  /* mount 직후 기본 배경 세팅 */
   useEffect(() => {
     ctrlSelf.set({ backgroundColor: baseBG });
   }, [baseBG, ctrlSelf]);
 
   /* 클릭 트랜지션 */
-  const handleClick = useCallback(async (e: React.MouseEvent) => {
-    /* 1) GlassPane 배경 희미화 */
-    ctrlSelf.start({
-      backgroundColor: rgba(themeHex, 0.03),
-      transition: { duration: 0.25, ease: 'easeOut' },
+  const handleClick = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
+    /* 1) 다른 Pane 들도 즉시 페이드(0.3 s) */
+    document.querySelectorAll<HTMLButtonElement>('.glass-pane').forEach(el=>{
+      if (el !== e.currentTarget) {
+        el.animate(
+          [{ opacity: 1 }, { opacity: 0 }],
+          { duration: 300, easing: 'ease-out', fill: 'forwards' }
+        );
+      }
     });
 
-    document
-      .querySelectorAll<HTMLButtonElement>('.glass-pane')
-      .forEach(el => {
-        if (el !== e.currentTarget) {            // 클릭된 자신은 제외
-          el.animate(
-            [{ opacity: 1 }, { opacity: 0 }],
-            { duration: 300, easing: 'ease-out', fill: 'forwards' }
-          );
-        }
-      });
+    /* 2) 자신의 배경 희미화(0.25 s) */
+    ctrlSelf.start({
+      backgroundColor: fadeBG,
+      transition:{ duration:0.25, ease:'easeOut' },
+    });
 
-    /* 2) 카메라 줌 + clearColor 페이드 */
+    /* 3) 카메라 줌·배경색 페이드 (0.8 s) */
     springCameraFov(UI.WORMHOLE.fovFar);
     starfieldBackground.set(themeHex, UI.WORMHOLE.duration * 1000);
 
-    /* 3) 오버레이 & 버튼 페이드아웃 */
+    /* 4) 컬러 오버레이 & 자신 완전 사라짐 */
     await Promise.all([
-      overlayControls.current?.set({ backgroundColor: rgba(themeHex, 0.9) }),
+      overlayControls.current?.set({ backgroundColor: rgba(themeHex,0.9) }),
       overlayControls.current?.start({
         backgroundColor: rgba(themeHex, UI.THEME.OVERLAY_ALPHA),
-        transition: { duration: UI.WORMHOLE.duration, ease: 'easeInOut' },
+        transition:{ duration:UI.WORMHOLE.duration, ease:'easeOut' },
       }),
       ctrlSelf.start({
-        opacity: 0,
-        transition: { delay: 0.1, duration: 0.35, ease: 'easeOut' },
+        opacity:0,
+        transition:{ delay:0.1, duration:0.35, ease:'easeOut' },
       }),
     ]);
 
     router.push(route);
-  }, [ctrlSelf, router, route, themeHex]);
+  }, [ctrlSelf, router, route, themeHex, fadeBG]);
 
   return (
     <motion.button
       className="glass-pane"
-      initial={{ opacity: 1, backgroundColor: baseBG }}
-      animate={ctrlSelf}                 /* AnimationControls 한 가지만 전달 */
-      whileHover={{ scale: 1.04 }}
-      onHoverStart={() => {
-        setHovered(true);
-        springCameraFov(UI.WORMHOLE.fovMin +
-          Math.random() * (UI.WORMHOLE.fovMax - UI.WORMHOLE.fovMin));
+      initial={{ opacity:1, backgroundColor: baseBG }}
+      animate={ctrlSelf}          /* AnimationControls 단일 전달 */
+      whileHover={{ scale:1.04 }}
+      onHoverStart={()=>{
+        springCameraFov(
+          UI.WORMHOLE.fovMin +
+          Math.random() * (UI.WORMHOLE.fovMax - UI.WORMHOLE.fovMin)
+        );
         overlayControls.current?.set({
-          backgroundColor: rgba(themeHex, UI.THEME.OVERLAY_ALPHA)
+          backgroundColor: rgba(themeHex, UI.THEME.OVERLAY_ALPHA),
         });
         ctrlSelf.start({
           backgroundColor: hoverBG,
-          transition: { duration: 0.15 },
+          transition:{ duration:0.15 },
         });
       }}
-      onHoverEnd={() => {
-        setHovered(false);
+      onHoverEnd={()=>{
         springCameraFov(UI.WORMHOLE.fovNear);
-        overlayControls.current?.set({ backgroundColor: 'transparent' });
+        overlayControls.current?.set({ backgroundColor:'transparent' });
         ctrlSelf.start({
           backgroundColor: baseBG,
-          transition: { duration: 0.2 },
+          transition:{ duration:0.2 },
         });
       }}
       onClick={handleClick}
-      transition={{ type: 'spring', stiffness: 130, damping: 18 }}
+      transition={{ ease:"easeOut", duration: 0.2 }}
     >
       {children ?? label}
     </motion.button>
