@@ -19,9 +19,9 @@ export default function Home() {
       <Starfield />
 
       <div className="viewport-grid">
-        <GlassPane label="About"    route="/about"    active={active} setActive={setActive} />
-        <GlassPane label="Product"  route="/product"  active={active} setActive={setActive} />
-        <GlassPane label="Contact"  route="/contact"  active={active} setActive={setActive} />
+        <GlassPane label="About"    route="/#"    active={active} setActive={setActive} />
+        <GlassPane label="Product"  route="/#"  active={active} setActive={setActive} />
+        <GlassPane label="Contact"  route="/#"  active={active} setActive={setActive} />
       </div>
     </>
   );
