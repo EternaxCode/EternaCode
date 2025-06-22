@@ -1,3 +1,9 @@
+html, body {
+  margin: 0;
+  padding: 0;      /* 혹시 다른 곳에서 padding 준 경우도 대비 */
+  height: 100%;    /* 모바일 주소창 숨김 현상 완화 */
+}
+
 /*── 공통 설정 ───────────────────────────────*/
 .viewport-grid {
   position: fixed;
