@@ -9,10 +9,16 @@ html, body {
   position: fixed;
   inset: 0;
   display: grid;
-  place-items: stretch;
-  grid-auto-rows: 1fr;    /* 셀 채우기 */
-  grid-auto-columns: 1fr;
-  z-index: 20;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr;
+}
+
+/* 세로 화면일 땐 3행 세로배치 */
+@media (max-aspect-ratio: 1/1) {
+  .viewport-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 1fr);
+  }
 }
 
 /*── 기본: 가로 (= landscape, 또는 3:2 이상) → 3열 ──*/
@@ -21,7 +27,3 @@ html, body {
   /* 가로여도 거의 정사각형에 가까운 경우 portrait 로 처리하고 싶다면 조정 가능 */
 }
 
-/*── 높이가 더 긴 경우 → 3행 ───────────────────────*/
-@media (orientation: portrait), (max-aspect-ratio: 1/1) {
-  .viewport-grid { grid-auto-flow: row; }              /* 자동 행 배치 */
-}

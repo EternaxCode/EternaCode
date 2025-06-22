@@ -14,6 +14,7 @@ import {
   overlayControls,
   starfieldBackground,
 } from '@/components/StarfieldCanvas';
+import MenuPane from '@/components/MenuPane';
 
 export default function Home() {
   /* 첫 마운트 때 검정 우주로 리셋 */
@@ -29,9 +30,9 @@ export default function Home() {
       <Starfield />
 
       <div className="viewport-grid">
-        <GlassPane label="About"    route="/"    index={0} />
-        <GlassPane label="Product"  route="/"  index={1} />
-        <GlassPane label="Contact"  route="/"  index={2} />
+        <MenuPane label="About"   route="/about"   icon="about"   index={0} />
+        <MenuPane label="Product" route="/product" index={1} />
+        <MenuPane label="Contact" route="/contact" index={2} />
       </div>
     </>
   );

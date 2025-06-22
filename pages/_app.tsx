@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { UI } from '@/lib/uiConstants';
 import '../styles/globals.css';
 import '../styles/pane.css';
+import '../styles/icon.css';
 
 const Starfield = dynamic(
   () => import('@/components/StarfieldCanvas').then(m => m.default),
@@ -35,9 +36,6 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
           background: #000;
         }
       `}</style>
-
-      {/* 별자리 배경은 한 번만 마운트 */}
-      <Starfield />
 
       {/* 페이지 컴포넌트 전환 */}
       <AnimatePresence mode="wait">
