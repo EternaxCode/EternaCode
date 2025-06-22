@@ -1,34 +1,41 @@
-html, body {
-  margin: 0;
-  padding: 0;      /* 혹시 다른 곳에서 padding 준 경우도 대비 */
-  height: 100%;    /* 모바일 주소창 숨김 현상 완화 */
-  overflow:hidden;
+html,
+body {
+    margin: 0;
+    padding: 0;
+    /* 혹시 다른 곳에서 padding 준 경우도 대비 */
+    height: 100%;
+    /* 모바일 주소창 숨김 현상 완화 */
+    overflow: hidden;
 }
 
 /*── 공통 설정 ───────────────────────────────*/
 .viewport-grid {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 1fr;
+    position: fixed;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+
 }
 
 .starfield-wrapper {
-  transform-origin: center center;
+    transform-origin: center center;
 }
 
 /* 세로 화면일 땐 3행 세로배치 */
-@media (max-aspect-ratio: 1/1) {
-  .viewport-grid {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(3, 1fr);
-  }
+@media (max-aspect-ratio:1/1) {
+    .viewport-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 1fr);
+    }
 }
 
 /*── 기본: 가로 (= landscape, 또는 3:2 이상) → 3열 ──*/
-.viewport-grid { grid-auto-flow: column; }             /* 자동 열 배치 */
-@media (orientation: landscape) and (max-aspect-ratio: 3/2) {
-  /* 가로여도 거의 정사각형에 가까운 경우 portrait 로 처리하고 싶다면 조정 가능 */
+.viewport-grid {
+    grid-auto-flow: column;
 }
 
+/* 자동 열 배치 */
+@media (orientation: landscape) and (max-aspect-ratio: 3/2) {
+    /* 가로여도 거의 정사각형에 가까운 경우 portrait 로 처리하고 싶다면 조정 가능 */
+}

@@ -18,12 +18,26 @@
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     background: rgba(255, 255, 255, var(--glass-bg-o));
-    border-right: 1px solid rgba(255, 255, 255, var(--glass-border-o));
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, var(--glass-border-o)) inset;
 
     transition:
         background-color .3s ease,
         backdrop-filter .3s ease,
         -webkit-backdrop-filter .3s ease;
+}
+
+.pane-cell {
+    position: relative;
+    /* 독립 BFC */
+    overflow: hidden;
+    /* 안쪽 내용만 보이게 */
+    display: flex;
+}
+
+.pane-cell>.glass-pane {
+    flex: 1;
+    /* 셀 안에서 100% 차지 */
+    transform-origin: center;
 }
 
 .glass-pane:last-child {

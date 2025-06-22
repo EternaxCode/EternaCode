@@ -38,9 +38,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
     /* 카메라가 준비된 뒤에만 clearColor 적용 */
     if (cameraControls.current) {
-      starfieldBackground.set(themeHex);
+      starfieldBackground.set(themeHex, 600)
     } else {
-      setTimeout(() => starfieldBackground.set(themeHex), 0);
+      setTimeout(() => starfieldBackground.set(themeHex, 600), 0);
     }
 
     /* 오버레이 컬러 */
