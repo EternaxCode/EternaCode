@@ -60,15 +60,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       {/* GlassPane CSS 변수 */}
-      <Head>
-        {/* 기본 ICO */}
-        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        {/* 필요하면 고해상도 PNG·SVG 추가 가능 */}
-        {/* <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" /> */}
-      </Head>
       <style jsx global>{`
         :root{
           --glass-blur:${GLASS.blur}px;
