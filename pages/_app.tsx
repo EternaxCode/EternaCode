@@ -17,6 +17,8 @@ import '@/styles/globals.css';
 import '@/styles/icon.css';
 import '@/styles/glassPane.css';
 import Head from 'next/head';
+import GlassHome from '@/components/GlassHome';
+import Footer from '@/components/Footer';
 
 const Starfield = dynamic(
   () => import('@/components/StarfieldCanvas').then(m => m.default),
@@ -69,20 +71,27 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           --glass-bg-hover-o:${GLASS.hoverOpacity};
           --glass-border-o:${GLASS.borderAlpha};
         }
-        html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#000}
       `}</style>
 
-      <Starfield />
-
+    <div className="fixed inset-0 z-0 pointer-events-none">
+     <Starfield />
+    </div>
+    <GlassHome />
+    <div className="flex flex-col min-h-screen">
       <AnimatePresence mode="wait">
-        <motion.div key={router.pathname}
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+        <motion.main               /* main 요소 사용 */
+          key={router.pathname}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           transition={{ duration: 0.35, ease: 'easeOut' }}
-          style={{ position: 'fixed', inset: 0, overflow: 'hidden', zIndex: 30 }}
+          className="flex-1"
         >
           <Component {...pageProps} />
-        </motion.div>
+        </motion.main>
       </AnimatePresence>
+      <Footer className="mt-auto"/>
+    </div>
     </>
   );
 }

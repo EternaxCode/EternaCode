@@ -23,10 +23,10 @@ export function useStarRenderer(): {
     const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 1, 2000);
     camera.position.z = 450;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(devicePixelRatio);
     renderer.setSize(innerWidth, innerHeight);
-    renderer.setClearColor('#000000', 1);
+    renderer.setClearColor('#000000', 0);
 
     mountRef.current.appendChild(renderer.domElement);
     Object.assign(renderer.domElement, {

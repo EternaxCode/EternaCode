@@ -1,0 +1,76 @@
+/*───────────────────────────────────────────────────────────
+  NeoStarPanel – 랜덤 Flare Spots + 글래스 패널
+  - ::after / ::before : 은은한 기본 광륜 (box-shadow)
+  - .flare             : 개별 플레어 스팟 (랜덤 위치·강도)
+───────────────────────────────────────────────────────────*/
+
+/* 초기 g값 – 광륜 세기 */
+.neoStarPanel { --g:1; }
+
+/*────────── 컨테이너 ──────────*/
+.neoStarPanel{
+  position:relative;
+  max-width:920px;
+  width:calc(100% - 3rem);
+  margin:5rem auto;
+  padding:calc(2.5rem + 3.14px + 2px) calc(3rem + 3.14px + 2px);
+  border-radius:24px;
+  isolation:isolate;
+}
+
+/*────────── 기본 광륜 ──────────*/
+.neoStarPanel::after{
+  content:""; position:absolute; inset:0; border-radius:inherit;
+  pointer-events:none;
+  box-shadow:
+    0 0 calc(6px  * var(--g)) #fff,
+    0 0 calc(14px * var(--g)) #fff;
+  transition:box-shadow 120ms linear;
+}
+
+/* 안쪽 광륜 + gap blur */
+.neoStarPanel::before{
+  content:""; position:absolute;
+  inset:calc(3.14px + 2px);
+  border-radius:calc(24px - 3.14px - 2px);
+  pointer-events:none;
+  box-shadow:0 0 calc(4px * var(--g)) #fff;
+  backdrop-filter:blur(6px) brightness(calc(1 + 0.2*var(--g)));
+  -webkit-backdrop-filter:blur(6px) brightness(calc(1 + 0.2*var(--g)));
+  transition:box-shadow 120ms linear,
+             backdrop-filter 140ms linear,
+             -webkit-backdrop-filter 140ms linear;
+}
+
+/*────────── 내부 글래스 ──────────*/
+.glass{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.18);
+  backdrop-filter:blur(24px) brightness(1.15);
+  -webkit-backdrop-filter:blur(24px) brightness(1.15);
+  border-radius:calc(24px - 3.14px - 2px);
+  padding:2.5rem 3rem;
+  color:var(--text-main,#eaf2ff);
+  line-height:1.65;
+}
+
+/*────────── 랜덤 Flare 스팟 ──────────*/
+.flare{
+  position:absolute;
+  width:14px; height:14px;
+  border-radius:50%;
+  background:radial-gradient(circle,
+              rgba(255,255,255,.95) 0%,
+              rgba(255,255,255,.4) 60%,
+              transparent 80%);
+  box-shadow:0 0 24px 6px rgba(255,255,255,.9);
+  pointer-events:none;
+
+  /* 개별 Flicker – 지속시간·딜레이 모두 랜덤으로 JS에서 주입 */
+  animation:pulse var(--dur,4s) ease-in-out infinite;
+}
+
+@keyframes pulse{
+  0%,100%{ transform:scale(.6); opacity:0;}
+  50%   { transform:scale(1);   opacity:1;}
+}

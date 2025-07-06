@@ -1,12 +1,18 @@
-html,
-body {
-    margin: 0;
-    padding: 0;
-    /* 혹시 다른 곳에서 padding 준 경우도 대비 */
-    height: 100%;
-    /* 모바일 주소창 숨김 현상 완화 */
-    overflow: hidden;
+@import "tailwindcss";
+@import "./vars.css";
+
+@layer base {
+  html, body {
+    @apply bg-transparent;
+  }
 }
+
+html,body{
+  margin:0;padding:0;min-height:100%;
+  overflow-x:hidden;           /* 세로 스크롤만 허용 */
+  background:#000;
+}
+
 
 /*── 공통 설정 ───────────────────────────────*/
 .viewport-grid {
@@ -39,3 +45,27 @@ body {
 @media (orientation: landscape) and (max-aspect-ratio: 3/2) {
     /* 가로여도 거의 정사각형에 가까운 경우 portrait 로 처리하고 싶다면 조정 가능 */
 }
+
+body{
+  font-family: 'Nunito', system-ui, sans-serif;
+  color: var(--text-main);
+  line-height: 1.65;
+}
+h1,h2,h3,h4{
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-main);
+}
+
+/* CenterPanel 재정비 */
+.panel{
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-edge);
+  backdrop-filter: blur(20px) brightness(1.15);
+  -webkit-backdrop-filter: blur(20px) brightness(1.15);
+}
+
+/* 보조 색 조정 */
+.panel h3   { color: var(--text-sub); }
+.panel th   { background: rgba(255,255,255,0.10); }
+.panel td   { color: var(--text-main); }
+.panel a    { color:#78c4ff; text-decoration:underline; }

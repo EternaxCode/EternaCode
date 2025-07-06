@@ -9,6 +9,10 @@ export default function Document() {
                 <link rel="shortcut icon" href="/favicon/favicon.ico" />
                 <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
                 <link rel="manifest" href="/site.webmanifest" />
+                <link
+                    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Poppins:wght@600&display=swap"
+                    rel="stylesheet"
+                />
             </Head>
 
             <body>

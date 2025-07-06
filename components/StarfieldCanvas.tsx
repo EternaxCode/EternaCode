@@ -8,6 +8,8 @@ import {
 import * as THREE from 'three';
 import { useStarfield } from '@/hooks/useStarfield';
 import { UI } from '@/lib/uiConstants';
+import { useScroll, useTransform, useSpring } from 'framer-motion';
+
 
 /* ───────── 전역 컨트롤 ───────── */
 export const overlayControls = {
@@ -44,6 +46,12 @@ export default function StarfieldCanvas() {
     const mountRef = useStarfield();
     const ovCtrl = useAnimation(); overlayControls.current = ovCtrl;
     const inited = useRef(false);
+
+    const { scrollYProgress } = useScroll();
+    const scale = useSpring(
+    useTransform(scrollYProgress, [0, 1], [1, 1.4]),
+      { stiffness: 60, damping: 18 }   // 자연스러운 관성
+    );
 
     useEffect(() => {
         const init = () => {
@@ -102,17 +110,17 @@ export default function StarfieldCanvas() {
                 const step = (ts: DOMHighResTimeStamp) => {
                     if (start === null) start = ts;
                     const k = Math.min((ts - start) / ms, 1);
-                    renderer.setClearColor(from.clone().lerp(target, ease(k)), 1);
+                    renderer.setClearColor(from.clone().lerp(target, ease(k)), 0);
                     if (k < 1) requestAnimationFrame(step);
                     else currentClear.copy(target);
                 };
                 if (ms === 0) { renderer.setClearColor(target, 1); currentClear.copy(target); }
                 else requestAnimationFrame(step);
             };
-            starfieldBackground.reset = () => renderer.setClearColor(toLin('#000'), 1);
+            starfieldBackground.reset = () => renderer.setClearColor(toLin('#000'), 0);
             starfieldBackground.reset();
 
-            /* 대기 FOV 실행 */
+            /* 대기 FOV 실행 */ 
             if (pendingFov !== null) { springCameraFov(pendingFov); pendingFov = null; }
 
             /* 리사이즈 */
@@ -142,7 +150,7 @@ export default function StarfieldCanvas() {
 
     return (
         <>
-            <motion.div ref={mountRef} className="fixed inset-0 -z-10" />
+            <motion.div ref={mountRef} className="fixed inset-0 -z-10" style={{ scale }}   />
             <motion.div
                 className="absolute inset-0 pointer-events-none"
                 style={{ mixBlendMode: 'screen', zIndex: -5 }}
