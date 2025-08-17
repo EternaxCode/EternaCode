@@ -130,23 +130,23 @@ export default function SectionScroll({ children, className = '' }: SectionScrol
         {children.map((section, index) => (
           <div
             key={index}
-            className="relative flex items-center justify-center"
+            className="relative flex items-center justify-center px-4 sm:px-6"
             style={{ 
               height: '100vh',
-              minHeight: '100vh',
-              paddingTop: '4rem', // Navigation 높이 (64px)
-              paddingBottom: '5rem' // Footer 높이 (80px) 
+              minHeight: '100vh'
             }}
           >
-            <div className="w-full">
+            <div className="w-full max-w-full overflow-hidden">
               {section}
             </div>
           </div>
         ))}
       </motion.div>
 
-      {/* 섹션 인디케이터 */}
-      <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-30 space-y-3">
+      {/* 섹션 인디케이터 - 모바일에서는 하단 중앙, 데스크톱에서는 우측 */}
+      <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-30 space-y-3 md:right-6 
+                      sm:right-4 sm:top-1/2 sm:transform sm:-translate-y-1/2 sm:space-y-3 sm:space-x-0
+                      max-sm:right-auto max-sm:left-1/2 max-sm:top-auto max-sm:bottom-20 max-sm:transform max-sm:-translate-x-1/2 max-sm:translate-y-0 max-sm:flex max-sm:flex-row max-sm:space-y-0 max-sm:space-x-3">
         {children.map((_, index) => (
           <button
             key={index}

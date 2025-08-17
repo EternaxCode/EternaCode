@@ -80,41 +80,39 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     </div>
     <Navigation />
     
-    {/* 메인 콘텐츠 영역 - Footer 공간 확보 */}
-    <div className="pt-16 pb-20"> {/* pb-20으로 Footer 공간 확보 */}
-      <AnimatePresence mode="wait">
-        <motion.main
-          key={router.pathname}
-          initial={{ 
-            opacity: 0, 
-            y: 20,
-            scale: 0.95,
-            filter: 'blur(10px)'
-          }}
-          animate={{ 
-            opacity: 1, 
-            y: 0,
-            scale: 1,
-            filter: 'blur(0px)'
-          }}
-          exit={{ 
-            opacity: 0, 
-            y: -20,
-            scale: 1.05,
-            filter: 'blur(5px)'
-          }}
-          transition={{ 
-            duration: 0.6, 
-            ease: [0.22, 1, 0.36, 1], // cubic-bezier for smooth easing
-            opacity: { duration: 0.4 },
-            filter: { duration: 0.3 }
-          }}
-          className="min-h-screen"
-        >
-          <Component {...pageProps} />
-        </motion.main>
-      </AnimatePresence>
-    </div>
+    {/* 메인 콘텐츠 영역 */}
+    <AnimatePresence mode="wait">
+      <motion.main
+        key={router.pathname}
+        initial={{ 
+          opacity: 0, 
+          y: 20,
+          scale: 0.95,
+          filter: 'blur(10px)'
+        }}
+        animate={{ 
+          opacity: 1, 
+          y: 0,
+          scale: 1,
+          filter: 'blur(0px)'
+        }}
+        exit={{ 
+          opacity: 0, 
+          y: -20,
+          scale: 1.05,
+          filter: 'blur(5px)'
+        }}
+        transition={{ 
+          duration: 0.6, 
+          ease: [0.22, 1, 0.36, 1], // cubic-bezier for smooth easing
+          opacity: { duration: 0.4 },
+          filter: { duration: 0.3 }
+        }}
+        className="min-h-screen"
+      >
+        <Component {...pageProps} />
+      </motion.main>
+    </AnimatePresence>
     
     {/* 고정된 Footer - 화면 하단에 고정 */}
     <Footer className="fixed bottom-0 left-0 right-0 z-20"/>
