@@ -19,6 +19,7 @@ import '@/styles/glassPane.css';
 import Head from 'next/head';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import BackgroundMusic from '@/components/BackgroundMusic';
 
 const Starfield = dynamic(
   () => import('@/components/StarfieldCanvas').then(m => m.default),
@@ -78,21 +79,48 @@ export default function MyApp({ Component, pageProps }: AppProps) {
      <Starfield />
     </div>
     <Navigation />
-    <div className="flex flex-col min-h-screen pt-16">
+    
+    {/* 메인 콘텐츠 영역 - Footer 공간 확보 */}
+    <div className="pt-16 pb-20"> {/* pb-20으로 Footer 공간 확보 */}
       <AnimatePresence mode="wait">
-        <motion.main               /* main 요소 사용 */
+        <motion.main
           key={router.pathname}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.35, ease: 'easeOut' }}
-          className="flex-1"
+          initial={{ 
+            opacity: 0, 
+            y: 20,
+            scale: 0.95,
+            filter: 'blur(10px)'
+          }}
+          animate={{ 
+            opacity: 1, 
+            y: 0,
+            scale: 1,
+            filter: 'blur(0px)'
+          }}
+          exit={{ 
+            opacity: 0, 
+            y: -20,
+            scale: 1.05,
+            filter: 'blur(5px)'
+          }}
+          transition={{ 
+            duration: 0.6, 
+            ease: [0.22, 1, 0.36, 1], // cubic-bezier for smooth easing
+            opacity: { duration: 0.4 },
+            filter: { duration: 0.3 }
+          }}
+          className="min-h-screen"
         >
           <Component {...pageProps} />
         </motion.main>
       </AnimatePresence>
-      <Footer className="mt-auto"/>
     </div>
+    
+    {/* 고정된 Footer - 화면 하단에 고정 */}
+    <Footer className="fixed bottom-0 left-0 right-0 z-20"/>
+    
+    {/* 배경음악 컨트롤 */}
+    <BackgroundMusic />
     </>
   );
 }
