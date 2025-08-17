@@ -17,7 +17,7 @@ import '@/styles/globals.css';
 import '@/styles/icon.css';
 import '@/styles/glassPane.css';
 import Head from 'next/head';
-import GlassHome from '@/components/GlassHome';
+import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
 const Starfield = dynamic(
@@ -46,10 +46,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       setTimeout(() => starfieldBackground.set(themeHex, 600), 0);
     }
 
-    /* 오버레이 컬러 */
-    overlayControls.current?.set({ backgroundColor: rgba(themeHex, 0.9) });
+    /* 오버레이 컬러 - 우주 테마 느낌 유지하되 텍스트 가독성 확보 */
+    const overlayAlpha = isHome ? 0.0 : 0.12; // 홈은 완전 투명, 다른 페이지는 약간의 테마 색상
+    overlayControls.current?.set({ backgroundColor: rgba(themeHex, overlayAlpha + 0.05) });
     overlayControls.current?.start({
-      backgroundColor: rgba(themeHex, UI.THEME.OVERLAY_ALPHA),
+      backgroundColor: rgba(themeHex, overlayAlpha),
       transition: { duration: 0.6, ease: 'easeInOut' },
     });
 
@@ -76,8 +77,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <div className="fixed inset-0 z-0 pointer-events-none">
      <Starfield />
     </div>
-    <GlassHome />
-    <div className="flex flex-col min-h-screen">
+    <Navigation />
+    <div className="flex flex-col min-h-screen pt-16">
       <AnimatePresence mode="wait">
         <motion.main               /* main 요소 사용 */
           key={router.pathname}

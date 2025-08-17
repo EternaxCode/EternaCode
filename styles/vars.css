@@ -1,23 +1,88 @@
-/* globals.css (또는 이미 사용 중인 전역 CSS) */
 :root{
-  /* ───── 기존 색상 변수 ───── */
-  --text-main : #eaf2ff;
-  --text-sub  : #bcd0ff;
-  --panel-bg  : rgba(255,255,255,0.06);
+  /* ───── 브랜드 색상 팔레트 ───── */
+  --brand-blue-50: #eff6ff;
+  --brand-blue-100: #dbeafe;
+  --brand-blue-200: #bfdbfe;
+  --brand-blue-300: #93c5fd;
+  --brand-blue-400: #60a5fa;
+  --brand-blue-500: #3b82f6;
+  --brand-blue-600: #2563eb;
+  --brand-blue-700: #1d4ed8;
+  --brand-blue-800: #1e40af;
+  --brand-blue-900: #1e3a8a;
+  
+  --brand-purple-50: #faf5ff;
+  --brand-purple-100: #f3e8ff;
+  --brand-purple-200: #e9d5ff;
+  --brand-purple-300: #d8b4fe;
+  --brand-purple-400: #c084fc;
+  --brand-purple-500: #a855f7;
+  --brand-purple-600: #9333ea;
+  --brand-purple-700: #7c3aed;
+  --brand-purple-800: #6b21a8;
+  --brand-purple-900: #581c87;
+
+  /* ───── 텍스트 색상 ───── */
+  --text-primary: #ffffff;
+  --text-secondary: #e2e8f0;
+  --text-tertiary: #94a3b8;
+  --text-muted: #64748b;
+  --text-brand: var(--brand-blue-400);
+  
+  /* 기존 호환성 */
+  --text-main: var(--text-primary);
+  --text-sub: var(--text-secondary);
+
+  /* ───── 배경 및 표면 색상 ───── */
+  --surface-primary: rgba(255,255,255,0.05);
+  --surface-secondary: rgba(255,255,255,0.10);
+  --surface-tertiary: rgba(255,255,255,0.15);
+  --surface-brand: rgba(59, 130, 246, 0.10);
+  
+  /* 기존 호환성 */
+  --panel-bg: var(--surface-primary);
   --panel-edge: rgba(255,255,255,0.18);
 
-  /* ───── 새 패널·애니메이션 변수 ───── */
-  --panel-radius: 24px;   /* 패널 둥근 모서리 */
-  --gap        : 3.14px;  /* 이중선 간격 (π px) */
-  --line-w     : 2px;     /* 선 굵기           */
+  /* ───── 인터랙션 색상 ───── */
+  --hover-bg: rgba(255,255,255,0.08);
+  --active-bg: rgba(255,255,255,0.12);
+  --focus-ring: var(--brand-blue-400);
+
+  /* ───── 그라데이션 ───── */
+  --gradient-brand: linear-gradient(135deg, var(--brand-blue-500) 0%, var(--brand-purple-600) 100%);
+  --gradient-text: linear-gradient(135deg, var(--brand-blue-400) 0%, var(--brand-purple-400) 50%, var(--brand-blue-400) 100%);
+
+  /* ───── 패널 및 애니메이션 변수 ───── */
+  --panel-radius: 16px;
+  --panel-radius-lg: 24px;
+  --gap: 3.14px;
+  --line-w: 1px;
 
   /* 별 애니메이션용 */
-  --flare-min : 0.8;   /* 가장 약할 때 배율  */
-  --flare-max : 1.4;   /* 가장 강할 때 배율  */
+  --flare-min: 0.8;
+  --flare-max: 1.4;
 
   /* 글래스 효과 강도 */
-  --blur  : 24px;
+  --blur: 24px;
+  --blur-strong: 40px;
   --bright: 1.15;
-  --bg-o  : 0.06;         /* 패널 내부 배경 투명도 */
-  --edge-o: 0.18;         /* 패널 에지 선 투명도   */
+  --bg-o: 0.05;
+  --edge-o: 0.15;
+
+  /* ───── 그림자 ───── */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+
+  /* ───── 애니메이션 듀레이션 ───── */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 350ms;
+
+  /* ───── 이징 함수 ───── */
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
 }

@@ -46,26 +46,306 @@ html,body{
     /* 가로여도 거의 정사각형에 가까운 경우 portrait 로 처리하고 싶다면 조정 가능 */
 }
 
-body{
-  font-family: 'Nunito', system-ui, sans-serif;
-  color: var(--text-main);
-  line-height: 1.65;
-}
-h1,h2,h3,h4{
-  font-family: 'Poppins', sans-serif;
-  color: var(--text-main);
+/* ───── 반응형 디자인 최적화 ───── */
+/* 컨테이너 크기별 조정 */
+.container-responsive {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
-/* CenterPanel 재정비 */
-.panel{
-  background: var(--panel-bg);
+/* 작은 화면 (모바일) */
+@media (min-width: 640px) {
+  .container-responsive {
+    max-width: 640px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* 중간 화면 (태블릿) */
+@media (min-width: 768px) {
+  .container-responsive {
+    max-width: 768px;
+  }
+}
+
+/* 큰 화면 (데스크탑) */
+@media (min-width: 1024px) {
+  .container-responsive {
+    max-width: 1024px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* 매우 큰 화면 */
+@media (min-width: 1280px) {
+  .container-responsive {
+    max-width: 1280px;
+  }
+}
+
+/* 초대형 화면 */
+@media (min-width: 1536px) {
+  .container-responsive {
+    max-width: 1536px;
+  }
+}
+
+/* 모바일 터치 최적화 */
+@media (max-width: 767px) {
+  /* 터치 타겟 최소 크기 44px */
+  button, .interactive, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* 모바일에서 hover 효과 제거 */
+  .hover-lift:hover,
+  .hover-scale:hover,
+  .hover-glow:hover {
+    transform: none;
+    filter: none;
+  }
+
+  /* 모바일 타이포그래피 조정 */
+  .text-display {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .text-heading-1 {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+  }
+
+  /* 모바일 스페이싱 조정 */
+  .mobile-spacing-tight {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .mobile-spacing-normal {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .mobile-spacing-loose {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+/* 태블릿 최적화 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* 태블릿에서 그리드 조정 */
+  .tablet-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 고해상도 디스플레이 최적화 */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* 고해상도에서 border 선명도 개선 */
+  .panel,
+  button,
+  .interactive {
+    border-width: 0.5px;
+  }
+}
+
+/* 다크 모드 지원 (시스템 설정 기반) */
+@media (prefers-color-scheme: dark) {
+  /* 이미 다크 테마이므로 추가 조정 없음 */
+}
+
+/* 줄어든 모션 선호 사용자 지원 */
+@media (prefers-reduced-motion: reduce) {
+  .stagger-children > * {
+    animation: none;
+  }
+}
+
+/* 접근성: 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+  :root {
+    --text-primary: #ffffff;
+    --text-secondary: #ffffff;
+    --panel-edge: rgba(255,255,255,0.5);
+  }
+}
+
+body{
+  font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  color: var(--text-main);
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+h1,h2,h3,h4,h5,h6{
+  font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  color: var(--text-main);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Typography Scale */
+.text-display {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.text-heading-1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.text-heading-2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.text-heading-3 {
+  font-size: clamp(1.25rem, 2.5vw, 1.875rem);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.text-body-large {
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+.text-body {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.text-small {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* ───── 글로벌 애니메이션 설정 ───── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 부드러운 스크롤 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ───── 공통 인터랙션 클래스 ───── */
+.interactive {
+  transition: all var(--duration-normal) var(--ease-out);
+  cursor: pointer;
+}
+
+.interactive:hover {
+  transform: translateY(-2px);
+}
+
+.interactive:active {
+  transform: translateY(0);
+  transition-duration: var(--duration-fast);
+}
+
+.hover-lift {
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+.hover-scale {
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.hover-glow {
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.hover-glow:hover {
+  filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.3));
+}
+
+.focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* ───── 스테이거 애니메이션 ───── */
+.stagger-children > * {
+  animation: fadeInUp 0.6s var(--ease-out) both;
+}
+
+.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ───── 로딩 애니메이션 ───── */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ───── 패널 스타일 리팩토링 ───── */
+.panel {
+  background: var(--surface-primary);
   border: 1px solid var(--panel-edge);
-  backdrop-filter: blur(20px) brightness(1.15);
-  -webkit-backdrop-filter: blur(20px) brightness(1.15);
+  border-radius: var(--panel-radius);
+  backdrop-filter: blur(var(--blur)) brightness(var(--bright));
+  -webkit-backdrop-filter: blur(var(--blur)) brightness(var(--bright));
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.panel:hover {
+  background: var(--surface-secondary);
+  border-color: rgba(255,255,255,0.25);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
 /* 보조 색 조정 */
-.panel h3   { color: var(--text-sub); }
-.panel th   { background: rgba(255,255,255,0.10); }
-.panel td   { color: var(--text-main); }
-.panel a    { color:#78c4ff; text-decoration:underline; }
+.panel h3   { color: var(--text-secondary); }
+.panel th   { background: var(--surface-secondary); }
+.panel td   { color: var(--text-primary); }
+.panel a    { color: var(--text-brand); text-decoration: underline; transition: color var(--duration-fast); }
+.panel a:hover { color: var(--brand-blue-300); }

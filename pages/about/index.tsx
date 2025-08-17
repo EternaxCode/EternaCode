@@ -1,144 +1,222 @@
 'use client';
 
-import Image from 'next/image';
-import CenterPanel from '@/components/CenterPanel';
+import Head from 'next/head';
+import { Code2, Zap, Shield, Users, Target, Lightbulb } from 'lucide-react';
 
-/** 
- * “Magazine-style” About 페이지
- *  - Hero → 전폭(Full-bleed) 배너
- *  - 이어지는 섹션은 2-열 Masonry(가변) 그리드
- *  - 이미지와 텍스트 컬럼을 교차(A–B, B–A) 배치해 리듬감 생성
- */
 export default function About() {
   return (
-    <CenterPanel>
-      {/* ─────────── HERO full-bleed ─────────── */}
-      <figure className="relative mb-12">
-        <Image
-          src="/about-hero.png"
-          alt="Alive Code, Infinite Evolution"
-          priority
-          width={2400}
-          height={840}
-          className="w-full h-auto rounded-xl shadow-2xl"
-        />
-        <figcaption className="absolute bottom-4 right-6 text-sm text-[var(--text-sub)] italic">
-          Alive Code, Infinite Evolution
-        </figcaption>
-      </figure>
+    <>
+      <Head><title>About EternaxCode - AI-Native Development Studio</title></Head>
 
-      {/* ─────────── MAGAZINE GRID ─────────── */}
-      <article className="grid gap-y-16 md:gap-y-24">
-        {/* 한 섹션 = 이미지+텍스트 (lg 이상 2-열) */}
-        <Section
-          img={{ src: '/alive-vs-traditional.png', w: 1000, h: 480, alt: 'Alive vs. Traditional' }}
-          title="What is “Alive Code”?"
-          order="img-text"
-        >
-          <p>
-            <strong>Outcome</strong> → 99.999 % uptime, minimal tech debt, and developers focusing
-            on creative problem-solving instead of firefighting.
-          </p>
-        </Section>
+      <main className="min-h-screen">
+        {/* Hero Section */}
+        <section className="flex items-center justify-center min-h-screen px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm mb-6">
+                <Code2 size={16} className="text-blue-400" />
+                About EternaxCode
+              </div>
+            </div>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+              Code Must Be Alive
+            </h1>
+            <p className="text-xl text-white/80 mb-8 max-w-3xl mx-auto leading-relaxed">
+              We believe software should evolve, heal, and grow autonomously. 
+              EternaxCode pioneers <strong>Alive Code</strong> – systems that think, adapt, and improve themselves.
+            </p>
+          </div>
+        </section>
 
-        <Section
-          img={{ src: '/raxi-diagram.png', w: 1000, h: 400, alt: 'RAXI data-flow diagram' }}
-          title="RAXI Engine Overview"
-          order="text-img"
-        >
-          <ol className="list-decimal pl-5 space-y-1">
-            <li><strong>AI Blueprinting</strong> – Natural-language → architecture → code skeleton</li>
-            <li><strong>Continuous Self-Test</strong> – LLM-generated tests &amp; regression checks</li>
-            <li><strong>Adaptive Ops</strong> – Real-time metrics drive auto-scaling &amp; traffic shift</li>
-            <li><strong>Incremental Refactor</strong> – Quality drop/CVE ⇒ auto PR → zero-downtime deploy</li>
-          </ol>
-        </Section>
-
-        <Section
-          title="Who We Are"
-          order="text-only"
-        >
-          <p>
-            <strong>EternaxCode</strong> is an <em>AI-Native web &amp; app studio</em>.  
-            We build <strong>Alive Code</strong>: software that <strong>self-heals</strong> and
-            <strong> self-upgrades</strong>, powered by our in-house AI system <strong>RAXI</strong>.
-          </p>
-        </Section>
-
-        <Section
-          title="Vision & Principles"
-          order="text-only"
-        >
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-white/5 rounded-lg p-5 backdrop-blur-sm shadow-inner">
-              <h3 className="font-semibold text-center mb-2">Vision</h3>
-              <p className="text-sm leading-relaxed">
-                <strong>“Code must be alive.”</strong><br />
-                Software as an <strong>ever-evolving organism.</strong>
+        {/* Story Section */}
+        <section className="py-20 px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Our Story</h2>
+              <p className="text-lg text-white/80 max-w-2xl mx-auto">
+                Born from frustration with brittle software and endless maintenance cycles
               </p>
             </div>
-            <div className="bg-white/5 rounded-lg p-5 backdrop-blur-sm shadow-inner">
-              <h3 className="font-semibold text-center mb-2">Core Principles</h3>
-              <ul className="text-sm list-disc pl-5 space-y-1">
-                <li><strong>Self-Everything</strong> – automate all repetition</li>
-                <li><strong>Radical Transparency</strong> – live metrics &amp; change logs</li>
-                <li><strong>Sustainability</strong> – green regions &amp; carbon monitoring</li>
-              </ul>
+            
+            <div className="grid md:grid-cols-3 gap-8">
+              <StoryCard
+                icon={<Target size={32} />}
+                title="The Problem"
+                description="Traditional software breaks, becomes outdated, and requires constant manual intervention. Developers spend 80% of their time maintaining, not creating."
+              />
+              <StoryCard
+                icon={<Lightbulb size={32} />}
+                title="Our Vision"
+                description="Software that lives and breathes. Code that monitors itself, fixes bugs automatically, and evolves with changing requirements without human intervention."
+              />
+              <StoryCard
+                icon={<Zap size={32} />}
+                title="The Solution"
+                description="RAXI Engine - our AI system that transforms static code into living, self-improving organisms. 99.999% uptime with minimal human oversight."
+              />
             </div>
           </div>
-        </Section>
+        </section>
 
-        <Section
-          title="Why EternaxCode?"
-          order="text-only"
-        >
-          <ul className="list-disc pl-5 space-y-1">
-            <li><strong>Zero-Downtime Resilience</strong> – self-recovery within 1 minute</li>
-            <li><strong>Ever-Green Codebase</strong> – dependencies &amp; security patches auto-merged</li>
-            <li><strong>Developer Freedom</strong> – write ideas, not YAML; run experiments, not sprints</li>
-            <li><strong>Open Standard Output</strong> – ships as pure React / Next.js / Kubernetes manifests</li>
-          </ul>
-        </Section>
-      </article>
-    </CenterPanel>
+        {/* RAXI Engine Section */}
+        <section className="py-20 px-6 bg-gradient-to-b from-transparent to-black/20">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">RAXI Engine</h2>
+              <p className="text-lg text-white/80 max-w-2xl mx-auto">
+                The brain behind Alive Code - our proprietary AI system that makes software truly autonomous
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <ProcessCard
+                step="01"
+                title="AI Blueprinting"
+                description="Natural language requirements transform into architectural diagrams and code skeletons automatically."
+              />
+              <ProcessCard
+                step="02"
+                title="Continuous Self-Test"
+                description="AI generates comprehensive test suites and regression checks that evolve with the codebase."
+              />
+              <ProcessCard
+                step="03"
+                title="Adaptive Operations"
+                description="Real-time metrics drive automatic scaling, traffic routing, and performance optimization."
+              />
+              <ProcessCard
+                step="04"
+                title="Incremental Evolution"
+                description="Quality drops trigger automatic refactoring. Security issues generate and deploy patches instantly."
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Values Section */}
+        <section className="py-20 px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Our Values</h2>
+              <p className="text-lg text-white/80">The principles that guide everything we build</p>
+            </div>
+
+            <div className="space-y-12">
+              <ValueCard
+                title="Self-Everything"
+                subtitle="Automate all repetition"
+                description="If humans have to do it twice, the system should learn to do it automatically. We eliminate toil, not jobs."
+              />
+              <ValueCard
+                title="Radical Transparency"
+                subtitle="Live metrics & change logs"
+                description="Every decision, every change, every metric is visible. Our systems explain their reasoning in real-time."
+              />
+              <ValueCard
+                title="Sustainability First"
+                subtitle="Green regions & carbon monitoring"
+                description="Alive Code optimizes for environmental impact. Efficient code isn't just faster - it's our responsibility to the planet."
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Team Section */}
+        <section className="py-20 px-6 bg-gradient-to-b from-black/20 to-transparent">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Who We Are</h2>
+              <p className="text-lg text-white/80 max-w-2xl mx-auto">
+                A diverse team of engineers, researchers, and visionaries united by one belief: 
+                <strong> software should serve humanity, not the other way around.</strong>
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 mb-12">
+              <div className="bg-white/10 rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300 cursor-pointer">
+                <Users size={48} className="text-blue-300 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-white mb-2">AI-Native Team</h3>
+                <p className="text-white/90">Engineers who think in autonomous systems and self-improving architectures</p>
+              </div>
+              <div className="bg-white/10 rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300 cursor-pointer">
+                <Shield size={48} className="text-purple-300 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-white mb-2">Security First</h3>
+                <p className="text-white/90">Former security researchers building unhackable, self-defending systems</p>
+              </div>
+              <div className="bg-white/10 rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300 cursor-pointer">
+                <Code2 size={48} className="text-green-300 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-white mb-2">Open Standards</h3>
+                <p className="text-white/90">Believers in open source, interoperability, and developer freedom</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-20 px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+              Ready to Make Your Code Alive?
+            </h2>
+            <p className="text-lg text-white/80 mb-8">
+              Join us in building the future where software evolves as fast as your ideas.
+            </p>
+            <div className="flex justify-center">
+              <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 border border-white/20 text-sm">
+                🔬 RAXI Engine - Internal Development Phase
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </>
   );
 }
 
-/* ────────── 섹션 컴포넌트 ────────── */
-type Img = { src: string; w: number; h: number; alt: string };
-
-function Section({
-  img,
-  title,
-  children,
-  order = 'img-text',
-}: {
-  img?: Img;
-  title: React.ReactNode;
-  children: React.ReactNode;
-  order?: 'img-text' | 'text-img' | 'text-only';
+function StoryCard({ icon, title, description }: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
 }) {
-  const hasImg = Boolean(img);
-  const isReversed = order === 'text-img';
   return (
-    <section
-      className={`grid gap-8 items-center ${hasImg ? 'md:grid-cols-2' : ''} ${
-        isReversed ? 'md:[&>*:first-child]:order-2' : ''
-      }`}
-    >
-      {img && (
-        <Image
-          src={img.src}
-          alt={img.alt}
-          width={img.w}
-          height={img.h}
-          className="w-full h-auto rounded-lg shadow-md"
-        />
-      )}
-      <div>
-        <h2 className="text-2xl font-bold mb-3">{title}</h2>
-        <div className="space-y-4 text-[17px]/relaxed">{children}</div>
+    <div className="text-center">
+      <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-white/15 border border-white/30 flex items-center justify-center text-blue-300">
+        {icon}
       </div>
-    </section>
+      <h3 className="text-xl font-bold text-white mb-4">{title}</h3>
+      <p className="text-white/90 leading-relaxed">{description}</p>
+    </div>
+  );
+}
+
+function ProcessCard({ step, title, description }: {
+  step: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="relative">
+      <div className="text-center">
+        <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">
+          {step}
+        </div>
+        <h3 className="text-lg font-bold text-white mb-3">{title}</h3>
+        <p className="text-white/90 text-sm leading-relaxed">{description}</p>
+      </div>
+    </div>
+  );
+}
+
+function ValueCard({ title, subtitle, description }: {
+  title: string;
+  subtitle: string;
+  description: string;
+}) {
+  return (
+    <div className="text-center max-w-2xl mx-auto">
+      <h3 className="text-2xl font-bold text-white mb-2">{title}</h3>
+      <p className="text-blue-300 font-medium mb-4">{subtitle}</p>
+      <p className="text-white/90 leading-relaxed">{description}</p>
+    </div>
   );
 }

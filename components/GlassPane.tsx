@@ -88,9 +88,9 @@ export default function GlassPane(
     springCameraFov(UI.WORMHOLE.fovFar);
     starfieldBackground.set(themeHex, UI.WORMHOLE.duration * 1000);
 
-    /* 4) 전체 컬러 오버레이 → 페이지 전환 */
+    /* 4) 전체 컬러 오버레이 → 페이지 전환 (우주 이동 효과) */
     await overlayControls.current?.start({
-      backgroundColor: rgba(themeHex, UI.THEME.OVERLAY_ALPHA),
+      backgroundColor: rgba(themeHex, 0.35),
       transition:{ duration:UI.WORMHOLE.duration, ease:'easeOut' },
     });
 
