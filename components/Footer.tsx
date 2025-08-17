@@ -1,5 +1,7 @@
 'use client';
 
+import { motion } from 'framer-motion';
+
 interface FooterProps { className?: string }
 
 export default function Footer({ className = '' }: FooterProps) {
@@ -15,7 +17,18 @@ export default function Footer({ className = '' }: FooterProps) {
         ${className}
       `}
     >
-      © 2025 EternaxCode Inc. All&nbsp;rights&nbsp;reserved.
+      {/* Footer 내부 텍스트만 애니메이션 */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ 
+          delay: 0.8, 
+          duration: 0.5,
+          ease: [0.22, 1, 0.36, 1]
+        }}
+      >
+        © 2025 EternaxCode Inc. All&nbsp;rights&nbsp;reserved.
+      </motion.div>
     </footer>
   );
 }

@@ -2,34 +2,42 @@
 
 import Head from 'next/head';
 import { Code2, Zap, Shield, Users, Target, Lightbulb } from 'lucide-react';
+import SectionScroll from '@/components/SectionScroll';
+import StaggerContainer, { StaggerItem } from '@/components/StaggerContainer';
 
 export default function About() {
   return (
     <>
       <Head><title>About EternaxCode - AI-Native Development Studio</title></Head>
 
-      <main className="min-h-screen">
+      <SectionScroll>
         {/* Hero Section */}
-        <section className="flex items-center justify-center min-h-screen px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="mb-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm mb-6">
-                <Code2 size={16} className="text-blue-400" />
-                About EternaxCode
+        <section className="px-6">
+          <StaggerContainer className="max-w-4xl mx-auto text-center">
+            <StaggerItem>
+              <div className="mb-8">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm mb-6">
+                  <Code2 size={16} className="text-blue-400" />
+                  About EternaxCode
+                </div>
               </div>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
-              Code Must Be Alive
-            </h1>
-            <p className="text-xl text-white/80 mb-8 max-w-3xl mx-auto leading-relaxed">
-              We believe software should evolve, heal, and grow autonomously. 
-              EternaxCode pioneers <strong>Alive Code</strong> – systems that think, adapt, and improve themselves.
-            </p>
-          </div>
+            </StaggerItem>
+            <StaggerItem>
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                Code Must Be Alive
+              </h1>
+            </StaggerItem>
+            <StaggerItem>
+              <p className="text-xl text-white/80 mb-8 max-w-3xl mx-auto leading-relaxed">
+                We believe software should evolve, heal, and grow autonomously. 
+                EternaxCode pioneers <strong>Alive Code</strong> – systems that think, adapt, and improve themselves.
+              </p>
+            </StaggerItem>
+          </StaggerContainer>
         </section>
 
         {/* Story Section */}
-        <section className="py-20 px-6">
+        <section className="px-6">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Our Story</h2>
@@ -59,7 +67,7 @@ export default function About() {
         </section>
 
         {/* RAXI Engine Section */}
-        <section className="py-20 px-6 bg-gradient-to-b from-transparent to-black/20">
+        <section className="px-6 bg-gradient-to-b from-transparent to-black/20">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">RAXI Engine</h2>
@@ -94,7 +102,7 @@ export default function About() {
         </section>
 
         {/* Values Section */}
-        <section className="py-20 px-6">
+        <section className="px-6">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Our Values</h2>
@@ -122,7 +130,7 @@ export default function About() {
         </section>
 
         {/* Team Section */}
-        <section className="py-20 px-6 bg-gradient-to-b from-black/20 to-transparent">
+        <section className="px-6 bg-gradient-to-b from-black/20 to-transparent">
           <div className="max-w-4xl mx-auto text-center">
             <div className="mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Who We Are</h2>
@@ -153,7 +161,7 @@ export default function About() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 px-6">
+        <section className="px-6">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
               Ready to Make Your Code Alive?
@@ -168,7 +176,7 @@ export default function About() {
             </div>
           </div>
         </section>
-      </main>
+      </SectionScroll>
     </>
   );
 }

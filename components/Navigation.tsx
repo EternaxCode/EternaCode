@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Home, Info, Package, Mail } from 'lucide-react';
 import Image from 'next/image';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { UI } from '@/lib/uiConstants';
 import { rgba } from '@/lib/colorUtils';
 import {
@@ -28,10 +28,13 @@ const navItems: NavItem[] = [
 
 export default function Navigation() {
   const router = useRouter();
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // 우주 이동 효과를 포함한 페이지 전환
+  // 개선된 우주 이동 효과
   const navigateWithEffect = useCallback(async (href: string) => {
-    if (router.pathname === href) return; // 같은 페이지면 무시
+    if (router.pathname === href || isTransitioning) return;
+
+    setIsTransitioning(true);
 
     // 테마 색상 결정
     const themeHex = 
@@ -42,28 +45,41 @@ export default function Navigation() {
       UI.THEME.default;
 
     try {
-      // 1) FOV 축소 (우주로 빨려들어가는 효과)
+      // 1) 부드러운 FOV 변화 (더 긴 지속시간)
       springCameraFov(UI.WORMHOLE.fovFar);
       
-      // 2) Starfield 배경 색상 변경
-      starfieldBackground.set(themeHex, UI.WORMHOLE.duration * 1000);
+      // 2) 점진적 배경 색상 전환
+      starfieldBackground.set(themeHex, UI.WORMHOLE.duration * 1500);
 
-      // 3) 오버레이 색상으로 전환 효과
+      // 3) 부드러운 오버레이 전환
       if (overlayControls.current) {
-        await overlayControls.current.start({
-          backgroundColor: rgba(themeHex, 0.35),
-          transition: { duration: UI.WORMHOLE.duration, ease: 'easeOut' },
+        // 먼저 약간의 어둠 효과
+        overlayControls.current.start({
+          backgroundColor: rgba(themeHex, 0.2),
+          transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
         });
+
+        // 짧은 지연 후 목표 색상으로
+        setTimeout(() => {
+          overlayControls.current?.start({
+            backgroundColor: rgba(themeHex, 0.1),
+            transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+          });
+        }, 200);
       }
 
-      // 4) 페이지 이동
-      await router.push(href);
+      // 4) 약간의 지연 후 페이지 이동 (부드러운 전환을 위해)
+      setTimeout(async () => {
+        await router.push(href);
+        setIsTransitioning(false);
+      }, 300);
+
     } catch (error) {
       console.error('Navigation error:', error);
-      // 에러가 발생해도 페이지는 이동
       router.push(href);
+      setIsTransitioning(false);
     }
-  }, [router]);
+  }, [router, isTransitioning]);
 
   return (
     <nav className="
@@ -108,18 +124,30 @@ export default function Navigation() {
             <button
               key={item.href}
               onClick={() => navigateWithEffect(item.href)}
+              disabled={isTransitioning}
               className={`
                 flex items-center justify-center gap-2 px-3 py-2 md:px-4 md:py-2
                 rounded-full text-sm font-medium border-none outline-none
-                transition-all duration-200 cursor-pointer
+                transition-all duration-300 cursor-pointer
+                transform hover:scale-105 active:scale-95
                 ${isActive 
-                  ? 'bg-white/20 text-white shadow-lg' 
-                  : 'text-white/90 hover:text-white hover:bg-white/15'
+                  ? 'bg-white/20 text-white shadow-lg ring-2 ring-white/10' 
+                  : 'text-white/90 hover:text-white hover:bg-white/15 hover:shadow-md'
+                }
+                ${isTransitioning 
+                  ? 'opacity-50 cursor-not-allowed scale-95' 
+                  : 'opacity-100'
                 }
                 sm:justify-start
               `}
             >
-              <Icon size={16} className="md:size-4 mx-auto sm:mx-0" />
+              <Icon 
+                size={16} 
+                className={`
+                  md:size-4 mx-auto sm:mx-0 transition-transform duration-300
+                  ${isTransitioning ? 'animate-pulse' : ''}
+                `} 
+              />
               <span className="hidden sm:inline">{item.label}</span>
             </button>
           );
